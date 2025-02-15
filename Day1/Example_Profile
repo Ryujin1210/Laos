@@ -1,0 +1,65 @@
+//
+//  Ex1_View.swift
+//
+//  Created by YU WONGEUN on 2/13/25.
+//
+
+import SwiftUI
+
+struct Ex1_View: View {
+    // State variables to hold user input
+    @State private var name = ""
+    @State private var age = 18
+    @State private var notificationsEnabled = false
+    @State private var selectedDate = Date()
+    @State private var favoriteColor = Color.blue
+    @State private var showingSuccessAlert = false
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                // Personal Information Section
+                Section(header: Text("Personal Information")) {
+                    TextField("Name", text: $name)
+                    Stepper("Age: \(age)", value: $age, in: 1...100)
+                }
+                
+                // Settings Section
+                Section(header: Text("Settings")) {
+                    Toggle("Enable Notifications", isOn: $notificationsEnabled)
+                    DatePicker("Birthday", selection: $selectedDate, displayedComponents: .date)
+                }
+                
+                // Preferences Section
+                Section(header: Text("Preferences")) {
+                    ColorPicker("Favorite Color", selection: $favoriteColor)
+                }
+                
+                // Submit Button Section
+                Section {
+                    Button(action: submitForm) {
+                        Text("Submit")
+                    }
+                }
+                
+            }
+            .navigationTitle("Profile Setup")
+            .alert("Success", isPresented: $showingSuccessAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Your profile has been successfully submitted!")
+            }
+        }
+    }
+    
+    // Function to handle form submission
+    func submitForm() {
+        print("Form submitted")
+        showingSuccessAlert = true
+    }
+}
+
+
+#Preview {
+    Ex1_View()
+}
